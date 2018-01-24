@@ -4,15 +4,15 @@ module fa32(a, b, cin, sum, cout);
    output [31:0] sum;
    output        cout;
 
-   reg [32:0]    cout_int;
-   genvar        i;
-
+   wire [32:0]    cout_int;
+   
    assign cout_int[0] = cin;
 
    genvar        i;
    generate
-      for (i = 0; i < 32; i = i+1)
-         fa adder_i(.a(a[i]), .b(b[i]), .cin(cout_int[i]), .sum(sum[i]), .cout(cout_int[i+1]));
+      for (i = 0; i < 32; i = i+1) begin: RIPPLE
+         fa ADDER_I(.a(a[i]), .b(b[i]), .cin(cout_int[i]), .sum(sum[i]), .cout(cout_int[i+1]));
+      end
    endgenerate
 
    assign cout = cout_int[32];
